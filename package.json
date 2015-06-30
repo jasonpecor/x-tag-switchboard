@@ -1,0 +1,30 @@
+{
+  "name": "x-tag-switchboard",
+  "version": "0.0.0",
+  "description": "Mixin for managing global events for x-tags",
+  "main": "dist/switchboard.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/jasonpecor/x-tag-switchboard"
+  },
+  "keywords": [
+    "x-tag",
+    "mixin",
+    "events"
+  ],
+  "author": "Jason Pecor",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jasonpecor/x-tag-switchboard/issues"
+  },
+  "homepage": "https://github.com/jasonpecor/x-tag-switchboard",
+  "devDependencies": {
+    "del": "^1.2.0",
+    "gulp-concat": "^2.6.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^1.2.0"
+  }
+}

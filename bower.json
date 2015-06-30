@@ -1,0 +1,23 @@
+{
+  "name": "x-tag-switchboard",
+  "version": "1.0.0",
+  "homepage": "https://github.com/jasonpecor/x-tag-switchboard",
+  "authors": [
+    "jasonpecor <jason@jasonpecor.com>"
+  ],
+  "description": "Mixin for managing global events for x-tags",
+  "main": "dist/switchboard.js",
+  "keywords": [
+    "x-tag",
+    "mixin",
+    "events"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
