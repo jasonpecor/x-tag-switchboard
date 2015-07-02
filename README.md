@@ -103,9 +103,9 @@ xtag.register('chat-window', {
   }
 });
 ```
-You can unpatch an element from *all* events at the same time by calling `.unpatch()` with no arguments.
+You can unpatch an element from *all* events at the same time by calling `.unpatch(element)` with no second argument.
 ```javascript
-this.switchboard.unpatch();
+this.switchboard.unpatch(this);
 ```
 
 ### Other HTML Elements
