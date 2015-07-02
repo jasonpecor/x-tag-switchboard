@@ -9,6 +9,13 @@ An events mechanism is the most obvious solution, and HTML and x-tags already pr
 
 The **x-tag-switchboard** mixin adds this missing piece.  When added to a project, the 'switchboard' mixin will become available to all of your x-tag definitions, as will the `xtag.switchboard` object, which gives you access to the switchboard API.
 
+## Bower
+
+You can add the `x-tag-switchboard` mixin as a dependency using bower.
+```
+bower install --save x-tag-switchboard
+```
+
 ## Usage
 
 The switchboard mixin aims to use as much of the native x-tag functionality as possible to simplify its usage.  Here we will cover how to send an event to the switchboard, and how to listen for an event from the switchboard in your element.
