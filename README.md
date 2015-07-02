@@ -135,7 +135,7 @@ You can actually use switchboard with _any_ object.  This allows your x-tag elem
 In this example, we'll create a (fairly crude) object to send and receive chat messages via a WebSocket.
 
 ```javascript
-(function chat() {
+(function chat(proxy) {
   var socket = new WebSocket('wss://chat.server');
   
   // when a message is received from the server via the socket, 
@@ -147,24 +147,24 @@ In this example, we'll create a (fairly crude) object to send and receive chat m
   
   // handle messages from user
   
-  xtag.switchboard.patch(this, 'message.send'); // patch the chat function `this`
-  xtag.switchboard.connect(this); // connect
+  xtag.switchboard.patch(proxy, 'message.send'); // patch the `proxy` object
+  xtag.switchboard.connect(proxy); // connect
   
   // listen for 'message.send' events from the UI via the switchboard,
   // and send the message to the server via the socket
   
-  this.addEventListener('message.send', function (e) {
+  proxy.addEventListener('message.send', function (e) {
     socket.send(e.detail.message);
   });
   
-  // NOTE: `this` has had the standard HTML events API mixed into it by .patch()
-  // That is why you can call this.addEventListener() here.
-  // You can also use xtag.addEvent() and xtag.fireEvent on standard objects 
+  // NOTE: `proxy` has had the standard HTML events API mixed into it by .patch()
+  // That is why you can call proxy.addEventListener() here.
+  // You can also use xtag.addEvent() and xtag.fireEvent() on standard objects 
   // which have been patched in this way.
   
   socket.connect();
 
-}());
+}({}));
 ```
 
 ### Disable Switchboard
