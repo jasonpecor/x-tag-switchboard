@@ -1,0 +1,34 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>x-tag-switchboard example</title>
+</head>
+
+<body>
+
+<h1>x-tag-switchboard</h1>
+<h2>example</h2>
+
+<p>Take a look a the console output.</p>
+
+<script src="bower_components/x-tag-core/dist/x-tag-core.js"></script>
+<script src="../dist/x-tag-switchboard.js"></script>
+<script>
+
+(function test(proxy) {
+	
+	xtag.switchboard.patch(proxy, 'test.test');
+	xtag.switchboard.connect(proxy);
+	
+	xtag.addEvent(proxy, 'test.test', function (e) {
+		console.log('Proxy has received test.test event', e);
+	});
+	
+}({}));
+
+xtag.switchboard.transmit('test.test');
+
+</script>
+</body>
+</html>

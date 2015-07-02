@@ -1,0 +1,21 @@
+{
+  "name": "x-tag-switchboard-example",
+  "version": "1.0.1",
+  "homepage": "https://github.com/jasonpecor/x-tag-switchboard",
+  "description": "Example of x-tag-switchboard usage",
+  "main": "index.html",
+  "authors": [
+    "Jason Pecor"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "x-tag-core": "~1.1.9"
+  }
+}
