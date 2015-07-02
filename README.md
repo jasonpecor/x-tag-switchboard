@@ -142,7 +142,7 @@ In this example, we'll create a (fairly crude) object to send and receive chat m
   // transmit it to UI via the switchboard
   
   socket.onmessage = function (m) {
-    xtag.switchboard.transmit('message.received', { detail: message: m.data }});
+    xtag.switchboard.transmit('message.received', { detail: m.data });
   };
   
   // handle messages from user
