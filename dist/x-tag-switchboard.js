@@ -150,11 +150,13 @@ xtag.mixins.switchboard = (function () {
 	var connectionMixin = {
 		_listeners: {
 			value: {},
-			enumerable: false
+			enumerable: false,
+			writable: true
 		},
 		_patches: {
 			value: [],
-			enumerable: false
+			enumerable: false,
+			writable: true
 		},
 		addEventListener: {
 			value: function (evt, cb, capture) {
