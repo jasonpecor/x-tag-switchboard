@@ -25,9 +25,19 @@
 		console.log('Proxy has received test.test event', e);
 	});
 	
+	var proxy2 = {}; // new proxy to verify no conflict
+	
+	xtag.switchboard.patch(proxy2, 'test.test2');
+	xtag.switchboard.connect(proxy2);
+	
+	xtag.addEvent(proxy2, 'test.test2', function (e) {
+		console.log('Proxy2 has received test.test2 event', e);
+	});
+	
 }({}));
 
 xtag.switchboard.transmit('test.test');
+xtag.switchboard.transmit('test.test2');
 
 </script>
 </body>

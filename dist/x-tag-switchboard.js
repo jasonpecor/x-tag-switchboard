@@ -52,8 +52,60 @@ xtag.mixins.switchboard = (function () {
 				
 				// Extend non-HTMLElement object, if not already extended
 				
-				if (!element._patches)
-					Object.defineProperties(element, connectionMixin);
+				if (!element._patches) {
+					Object.defineProperties(element, {
+						_listeners: {
+							value: {},
+							enumerable: false,
+							writable: true
+						},
+						_patches: {
+							value: [],
+							enumerable: false,
+							writable: true
+						},
+						addEventListener: {
+							value: function (evt, cb, capture) {
+								if (!this._listeners[evt])
+									this._listeners[evt] = [];
+								
+								this._listeners[evt].push(cb);
+							}
+						},
+						removeEventListener: {
+							value: function (evt, cb, capture) {
+								if (!this.listeners[evt]) return;
+								
+								if (!evt && !cb) {
+									this.listeners = {};
+									
+								} else if (!cb) {
+									this.listeners[evt] = [];
+									
+								} else {
+									var i = this.listeners[evt].indexOf(cb);
+									if (i === -1) return;
+									this.listeners[evt].splice(i,1);
+								}
+							}
+						},
+						dispatchEvent: {
+							value: function (event) {
+								var t = event.type;
+								
+								if (!this._listeners[t]) return;
+								
+								var n = this._listeners[t].length;
+								
+								for (var i = 0; i < n; i++)
+									this._listeners[t][i].call(this, event);
+							}
+						},
+						tagName: {
+							value: '__OBJECT__'
+						}
+					});
+				}
 				
 				// Verify valid events to patch
 				
@@ -144,61 +196,6 @@ xtag.mixins.switchboard = (function () {
 	// Make Switchboard API globally available
 	
 	xtag.switchboard = api;
-	
-	// Define Connection mixin for non-HTMLElements
-	
-	var connectionMixin = {
-		_listeners: {
-			value: {},
-			enumerable: false,
-			writable: true
-		},
-		_patches: {
-			value: [],
-			enumerable: false,
-			writable: true
-		},
-		addEventListener: {
-			value: function (evt, cb, capture) {
-				if (!this._listeners[evt])
-					this._listeners[evt] = [];
-				
-				this._listeners[evt].push(cb);
-			}
-		},
-		removeEventListener: {
-			value: function (evt, cb, capture) {
-				if (!this.listeners[evt]) return;
-				
-				if (!evt && !cb) {
-					this.listeners = {};
-					
-				} else if (!cb) {
-					this.listeners[evt] = [];
-					
-				} else {
-					var i = this.listeners[evt].indexOf(cb);
-					if (i === -1) return;
-					this.listeners[evt].splice(i,1);
-				}
-			}
-		},
-		dispatchEvent: {
-			value: function (event) {
-				var t = event.type;
-				
-				if (!this._listeners[t]) return;
-				
-				var n = this._listeners[t].length;
-				
-				for (var i = 0; i < n; i++)
-					this._listeners[t][i].call(this, event);
-			}
-		},
-		tagName: {
-			value: '__OBJECT__'
-		}
-	};
 
 	// Define switchboard mixin for x-tag
 	
