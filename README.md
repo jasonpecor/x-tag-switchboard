@@ -45,6 +45,7 @@ xtag.switchboard.transmit('nickname.changed', {
   detail: {oldName: "fred", newName: "strongbad"}
 });
 ```
+> _NOTE: `x-tag-switchboard` defaults to using `bubbles: false`.  Setting `bubbles` to `true` may cause unintended consequeces such as duplicate event firing and infinite recursion._
 ### Receiving Events
 
 In order for your x-tag elements to be able to receive switchboard events, they will need to use the "switchboard" mixin. In the `created` lifecycle function, you need to "patch" into the events in which your element is interested.  When your element is inserted into the DOM, it will automatically be connected to the switchboard, and notified of any patched events.  Likewise, when your element is removed from the DOM, it will be automatically disconnected from the switchboard.  The mixin will automatically connect, disconnect, and reconnect your element to the switchboard as needed.
@@ -126,7 +127,7 @@ xtag.addEvent(btn, 'payment.submitted', function (e) {
 
 xtag.switchboard.transmit('payment.submitted'); // button will react by disabling itself
 ```
-> _**IMPORTANT** There is currently no automatic connect / disconnect for elements which to not use the switchboard mixin.  As such, you will need to manually call `xtag.switchboard.disconnect(element)` before a connected element is disposed of, otherwise you will get memory leaks.  This may be remedied in future using MutationObservers, but for now, be careful._
+> _**IMPORTANT** There is currently no automatic connect / disconnect for elements which do not use the switchboard mixin.  As such, you will need to manually call `xtag.switchboard.disconnect(element)` before a connected element is disposed of, otherwise you will get memory leaks.  This may be remedied in future using MutationObservers, but for now, be careful._
 
 ### Any Object
 
@@ -166,6 +167,10 @@ In this example, we'll create a (fairly crude) object to send and receive chat m
 
 }({}));
 ```
+You can give these non-HTML "proxy" objects a tagName for debug purposes by passing it as a third parameter to `patch()`.
+```javascript
+xtag.switchboard.patch(proxy, 'some.event', 'chat-proxy'); // will display as <+ chat-proxy> in .showConnections()
+```
 
 ### Disable Switchboard
 
@@ -184,4 +189,11 @@ xtag.switchboard.online = true;
 You can view all active connections to the switchboard by doing the following in the console.
 ```javascript
 xtag.switchboard.showConnections()
+```
+
+You can also see whenever an event is transmitted, and to which connections it is transmitted by putting the switchboard into debug mode.
+```javascript
+xtag.switchboard.debug = true;
+
+xtag.switchboard.transmit('test.event'); // console output: switchboard -> 2 connections [Objects]
 ```
