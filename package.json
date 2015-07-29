@@ -1,6 +1,6 @@
 {
   "name": "x-tag-switchboard",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Mixin for managing global events for x-tags",
   "main": "dist/switchboard.js",
   "scripts": {

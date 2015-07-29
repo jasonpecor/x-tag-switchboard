@@ -2,7 +2,8 @@ xtag.mixins.switchboard = (function () {
 	"use strict";
 	
 	var connections = {},	// connection pools
-		online = true;		// switchboard online
+		online = true,		// switchboard online
+		debug = false;
 	
 	// Add a connection to an event pool
 	
@@ -27,7 +28,7 @@ xtag.mixins.switchboard = (function () {
 	// Switchboard API
 	
 	var api = {
-		patch: function (element, events) {
+		patch: function (element, events, tagName) {
 			
 			if (typeof element === 'object') {
 				
@@ -102,7 +103,10 @@ xtag.mixins.switchboard = (function () {
 							}
 						},
 						tagName: {
-							value: '__OBJECT__'
+							value: tagName ? '+ ' + tagName : '+ proxy-object'
+						},
+						__proxy: {
+							value: true
 						}
 					});
 				}
@@ -138,17 +142,27 @@ xtag.mixins.switchboard = (function () {
 		},
 		unpatch: function (element, events) {
 			if (events) {
-				var n = events.length;
-				for (var i = 0; i < n; i++) {
-					var x = element._patches.indexOf(events[i]);
+				if (events instanceof Array) {
+					var n = events.length;
+					for (var i = 0; i < n; i++) {
+						var x = element._patches.indexOf(events[i]);
+						if (x !== -1) {
+							element._patches.splice(x, 1);
+							if (element.parentNode || element.__proxy)
+								removeConnection(events[i], element);
+						}
+					}
+				} else if (typeof events === 'string') {
+					
+					var x = element._patches.indexOf(events);
 					if (x !== -1) {
 						element._patches.splice(x, 1);
-						if (element.parentNode)
-							removeConnection(events[i], element);
+						if (element.parentNode || element.__proxy)
+							removeConnection(events, element);
 					}
 				}
 			} else {
-				if (element.parentNode)
+				if (element.parentNode || element.__proxy)
 					api.disconnect(element);
 				element._patches = [];
 			}
@@ -159,6 +173,15 @@ xtag.mixins.switchboard = (function () {
 			if (!connections[evt]) return 0;
 			
 			var n = connections[evt].length;
+			
+			if (debug)
+				console.log('switchboard -> %s connections', n, connections[evt]);
+			
+			options = options || {};
+			
+			// default to no bubbling
+			if (typeof options.bubbles === 'undefined')
+				options.bubbles = false;
 			
 			for (var i = 0; i < n; i++)
 				xtag.fireEvent(connections[evt][i], evt, options);
@@ -190,6 +213,12 @@ xtag.mixins.switchboard = (function () {
 			}
 			
 			console.table(table);
+		},
+		get debug() {
+			return debug;
+		},
+		set debug(v) {
+			debug = !!v;
 		}
 	};
 	
