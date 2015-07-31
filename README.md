@@ -195,5 +195,5 @@ You can also see whenever an event is transmitted, and to which connections it i
 ```javascript
 xtag.switchboard.debug = true;
 
-xtag.switchboard.transmit('test.event'); // console output: switchboard -> 2 connections [Objects]
+xtag.switchboard.transmit('test.event'); // console output: switchboard: "test.event" -> 2 connections [Objects]
 ```
