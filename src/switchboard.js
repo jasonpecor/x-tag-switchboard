@@ -175,7 +175,7 @@ xtag.mixins.switchboard = (function () {
 			var n = connections[evt].length;
 			
 			if (debug)
-				console.log('switchboard -> %s connections', n, connections[evt]);
+				console.log('switchboard: "%s" -> %s connections', evt, n, connections[evt]);
 			
 			options = options || {};
 			
